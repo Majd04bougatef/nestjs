@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  api:
+    build: .
+    container_name: universite-api
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/universite
+      - JWT_SECRET=dev_secret_key
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:6
+    container_name: universite-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
